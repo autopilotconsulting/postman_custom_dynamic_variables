@@ -25,8 +25,8 @@ Here are examples of the existing methods you can call:
 ```javascript
 {
     "selectRandomValue": "{{sample_089c3ace-75e5-43e9-9f66-b7c3e7b87132_6794B2BE-3B4D-4FDF-8B20-12E0342D673F_4A373BFF-1FFA-4076-8339-60C56B0CF158}}",
-    "randomIntegerBetween0And5": {{randomInteger_0_5_1}},
-    "randomFloatBetween0And100": {{randomFloat_0_100_1}},
+    "randomIntegerBetween0And5": {{randomInteger_0_5}},
+    "randomFloatBetween0And100": {{randomFloat_0_100}},
 }
 ```
 
