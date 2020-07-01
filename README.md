@@ -9,6 +9,9 @@ This is just an initial commit to keep these somewhere until I decide to do some
 * I probably need a better delimiter than `_`
 * Might be worth setting values for tokens outside of the body too
 
+
+## How to use it
+
 The tokens have to be differentiated somehow if you want the values to be different.  I haven't decided on a uniform way.  One way I did it is to have an extra argument at the end that gets ignored like in these examples:
 ```javascript
 {
@@ -27,6 +30,9 @@ Here are examples of the existing methods you can call:
 }
 ```
 
-If anybody happens across this little repo, I hope you find this useful.  Feel free to use it however you wish.  Also, feel free to contribute to it if you'd like!
-
 I use this script in collections so they'll apply to all requests in that collection.
+
+
+## Contributing
+
+If anybody happens across this little repo, I hope you find this useful.  Feel free to use it however you wish.  Also, feel free to contribute to it if you'd like!
