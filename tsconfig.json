@@ -1,0 +1,16 @@
+{
+  "files": [
+    "src/pre-request.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ],
+  "compilerOptions": {
+    "target": "esnext",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  }
+}
