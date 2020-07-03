@@ -1,7 +1,7 @@
-import { buildDynamicVariables } from '../src/buildDynamicVariables';
-import { generators } from '../src/generators';
+import { buildDynamicVariables } from '../../src/buildDynamicVariables';
+import { generators } from '../../src/generators';
 
-jest.mock('../src/generators', () => ({
+jest.mock('../../src/generators', () => ({
   generators: {
     makeSomethingDynamicPlease: jest.fn(),
   }

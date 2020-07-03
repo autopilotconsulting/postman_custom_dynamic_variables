@@ -1,4 +1,4 @@
-import { randomFloat } from '../../src/generators/randomFloat';
+import { randomFloat } from '../../../src/generators/randomFloat';
 
 const SAMPLE_SIZE = 100000;
 

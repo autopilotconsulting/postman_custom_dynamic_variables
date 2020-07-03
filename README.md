@@ -4,6 +4,7 @@ This is just an initial commit to keep these somewhere until I decide to do some
 
 * ~~I'd like to use typescript because I love it.~~
 * ~~I'd also like to have tests . . . that should be pretty easy.~~
+* I'd like to have unit tests that test the randomness better, aren't slow, and don't dictate implementation
 * I'd like more helpful functions
 * ~~I'd like to find a better way to differentiate tokens~~
 * I probably need a better delimiter than `_`

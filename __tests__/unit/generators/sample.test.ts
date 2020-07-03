@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { sample } from '../../src/generators/sample';
+import { sample } from '../../../src/generators/sample';
 const SAMPLE_SIZE = 100000;
 
 describe(sample, () => {

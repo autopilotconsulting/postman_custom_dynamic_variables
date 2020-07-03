@@ -1,4 +1,4 @@
-import { randomInteger } from '../../src/generators/randomInteger';
+import { randomInteger } from '../../../src/generators/randomInteger';
 
 const SAMPLE_SIZE = 100000;
 
