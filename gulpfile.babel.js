@@ -26,7 +26,9 @@ gulp.task('compileTs', () => {
 
 gulp.task('watch', series(
   'compileTs',
-  function watching() { watch(['src/**/*.ts', 'tsconfig.json'], series('compileTs')) },
+  function watching() {
+    watch(['src/**/*.ts', 'tsconfig.json'], series('compileTs'))
+  },
 ));
 
 gulp.task('default', series('compileTs'));
