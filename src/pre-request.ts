@@ -1,14 +1,7 @@
-import { generators } from './generators';
-
-const TOKEN_FINDER = /\{\{(.+?)\}\}/g;
+import { buildDynamicVariables } from './buildDynamicVariables';
+import { Postman } from './types/postman';
 
 const body = pm.request.body.raw;
-const tokens = [...body.matchAll(TOKEN_FINDER)]
-  .map(([_, token]) => [token, ...token.split('_')]);
+const setter: Postman.VariableSetter = (name, value) => pm.environment.set(name, value);
 
-for (let [token, methodName, ...args] of tokens) {
-    if (generators[methodName]) {
-        const value = generators[methodName](...args);
-        pm.environment.set(token, value);
-    }
-}
+buildDynamicVariables(body, setter);

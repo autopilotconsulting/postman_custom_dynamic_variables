@@ -1,6 +1,29 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.buildDynamicVariables = void 0;
+const generators_1 = require("./generators");
+const TOKEN_FINDER = /\{\{(.+?)\}\}/g;
+function splitToken(token) {
+    const [methodParts] = token.split('#');
+    const [methodName, ...args] = methodParts.split('_');
+    return [token, methodName, ...args];
+}
+function buildDynamicVariables(body, setter) {
+    const tokens = [...body.matchAll(TOKEN_FINDER)]
+        .map(([_, token]) => splitToken(token));
+    for (let [token, methodName, ...args] of tokens) {
+        if (generators_1.generators[methodName]) {
+            const value = generators_1.generators[methodName](...args);
+            setter(token, value);
+        }
+    }
+}
+exports.buildDynamicVariables = buildDynamicVariables;
+
+},{"./generators":2}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.generators = void 0;
 const randomFloat_1 = require("./randomFloat");
 const randomInteger_1 = require("./randomInteger");
@@ -11,7 +34,7 @@ const generators = {
 exports.generators = generators;
 Object.freeze(generators);
 
-},{"./randomFloat":2,"./randomInteger":3,"./sample":4}],2:[function(require,module,exports){
+},{"./randomFloat":3,"./randomInteger":4,"./sample":5}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomFloat = void 0;
@@ -22,7 +45,7 @@ function randomFloat(minString, maxString) {
 }
 exports.randomFloat = randomFloat;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomInteger = void 0;
@@ -34,7 +57,7 @@ function randomInteger(minString, maxString) {
 }
 exports.randomInteger = randomInteger;
 
-},{"./randomFloat":2}],4:[function(require,module,exports){
+},{"./randomFloat":3}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sample = void 0;
@@ -43,19 +66,12 @@ function sample(...options) {
 }
 exports.sample = sample;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const generators_1 = require("./generators");
-const TOKEN_FINDER = /\{\{(.+?)\}\}/g;
+const buildDynamicVariables_1 = require("./buildDynamicVariables");
 const body = pm.request.body.raw;
-const tokens = [...body.matchAll(TOKEN_FINDER)]
-    .map(([_, token]) => [token, ...token.split('_')]);
-for (let [token, methodName, ...args] of tokens) {
-    if (generators_1.generators[methodName]) {
-        const value = generators_1.generators[methodName](...args);
-        pm.environment.set(token, value);
-    }
-}
+const setter = (name, value) => pm.environment.set(name, value);
+buildDynamicVariables_1.buildDynamicVariables(body, setter);
 
-},{"./generators":1}]},{},[5]);
+},{"./buildDynamicVariables":1}]},{},[6]);

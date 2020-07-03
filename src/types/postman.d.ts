@@ -4,6 +4,7 @@ declare global {
 
 declare namespace Postman {
   type VariableValueType = string | number | null;
+  type VariableSetter = (variableName: string, variableValue: Postman.VariableValueType) => void;
 }
 
 export interface Postman {
@@ -20,5 +21,5 @@ export interface RequestBody {
 }
 
 export interface Environment {
-  set: (variableName: string, variableValue: Postman.VariableValueType) => void;
+  set: Postman.VariableSetter;
 }
