@@ -25,6 +25,7 @@ describe('pre-request', () => {
 
   afterEach(() => {
     delete (global as any).pm;
+    jest.resetModules();
   });
 
   it('should buildDynamicVariables', () => {
