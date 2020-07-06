@@ -8,33 +8,41 @@ jest.mock('../../src/buildDynamicVariables', () => ({
 describe('pre-request', () => {
   var fakeSetter = jest.fn();
 
-  var pm: Postman = {
-    request: {
-      body: {
-        raw: 'This is my body!!',
+  function buildPostman(): Postman {
+    return {
+      request: {
+        body: undefined,
       },
-    },
-    environment: {
-      set: fakeSetter,
-    },
+      environment: {
+        set: fakeSetter,
+      },
+    }
   };
 
   beforeEach(() => {
-    Object.assign(global, { pm });
+    Object.assign(global, { pm: buildPostman() });
   });
 
   afterEach(() => {
     delete (global as any).pm;
+    jest.clearAllMocks();
     jest.resetModules();
   });
 
-  it('should buildDynamicVariables', () => {
+  it('should build dynamic variables', () => {
+    pm.request.body = { raw: 'There is no body in the study!!' };
     require('../../src/pre-request');
 
-    expect(buildDynamicVariables).toHaveBeenCalledWith('This is my body!!', expect.any(Function));
+    expect(buildDynamicVariables).toHaveBeenCalledWith('There is no body in the study!!', expect.any(Function));
     const setterProxy = (buildDynamicVariables as jest.Mock<any, any>).mock.calls[0][1];
 
     setterProxy('city', 'Letterkenny');
     expect(fakeSetter).toHaveBeenCalledWith('city', 'Letterkenny');
+  });
+
+  it('should not try to build dynamic variables if there is no body', () => {
+    require('../../src/pre-request');
+
+    expect(buildDynamicVariables).not.toHaveBeenCalled();
   });
 });

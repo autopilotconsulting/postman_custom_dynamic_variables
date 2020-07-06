@@ -1,7 +1,9 @@
 import { buildDynamicVariables } from './buildDynamicVariables';
 import { Postman } from './types/postman';
 
-const body = pm.request.body.raw;
+const body = pm.request.body;
 const setter: Postman.VariableSetter = (name, value) => pm.environment.set(name, value);
 
-buildDynamicVariables(body, setter);
+if (body) {
+  buildDynamicVariables(body.raw, setter);
+}

@@ -13,7 +13,7 @@ export interface Postman {
 }
 
 export interface Request {
-  body: RequestBody;
+  body?: RequestBody;
 }
 
 export interface RequestBody {

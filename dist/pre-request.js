@@ -70,8 +70,10 @@ exports.sample = sample;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const buildDynamicVariables_1 = require("./buildDynamicVariables");
-const body = pm.request.body.raw;
+const body = pm.request.body;
 const setter = (name, value) => pm.environment.set(name, value);
-buildDynamicVariables_1.buildDynamicVariables(body, setter);
+if (body) {
+    buildDynamicVariables_1.buildDynamicVariables(body.raw, setter);
+}
 
 },{"./buildDynamicVariables":1}]},{},[6]);
