@@ -21,20 +21,32 @@ function buildDynamicVariables(body, setter) {
 }
 exports.buildDynamicVariables = buildDynamicVariables;
 
-},{"./generators":2}],2:[function(require,module,exports){
+},{"./generators":3}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.currentTimeUtc = void 0;
+const moment = require("moment");
+function currentTimeUtc(format) {
+    const currentMoment = moment.utc();
+    return currentMoment.format(format);
+}
+exports.currentTimeUtc = currentTimeUtc;
+
+},{"moment":"moment"}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generators = void 0;
+const currentTimeUtc_1 = require("./currentTimeUtc");
 const randomFloat_1 = require("./randomFloat");
 const randomInteger_1 = require("./randomInteger");
 const sample_1 = require("./sample");
 const generators = {
-    randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
+    currentTimeUtc: currentTimeUtc_1.currentTimeUtc, randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
 };
 exports.generators = generators;
 Object.freeze(generators);
 
-},{"./randomFloat":3,"./randomInteger":4,"./sample":5}],3:[function(require,module,exports){
+},{"./currentTimeUtc":2,"./randomFloat":4,"./randomInteger":5,"./sample":6}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomFloat = void 0;
@@ -45,7 +57,7 @@ function randomFloat(minString, maxString) {
 }
 exports.randomFloat = randomFloat;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomInteger = void 0;
@@ -57,7 +69,7 @@ function randomInteger(minString, maxString) {
 }
 exports.randomInteger = randomInteger;
 
-},{"./randomFloat":3}],5:[function(require,module,exports){
+},{"./randomFloat":4}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sample = void 0;
@@ -66,7 +78,7 @@ function sample(...options) {
 }
 exports.sample = sample;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const buildDynamicVariables_1 = require("./buildDynamicVariables");
@@ -76,4 +88,4 @@ if (body) {
     buildDynamicVariables_1.buildDynamicVariables(body.raw, setter);
 }
 
-},{"./buildDynamicVariables":1}]},{},[6]);
+},{"./buildDynamicVariables":1}]},{},[7]);

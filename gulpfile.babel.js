@@ -14,14 +14,15 @@ gulp.task('compileTs', () => {
     entries: ['src/pre-request.ts'],
     debug: false,
   })
-  .plugin(tsify)
-  .bundle()
-  .pipe(source('pre-request.js'))
-  .pipe(dest(OUTPUT_PATH))
-  .pipe(buffer())
-  .pipe(terser())
-  .pipe(rename({ extname: '.min.js' }))
-  .pipe(dest(OUTPUT_PATH));
+    .external('moment')
+    .plugin(tsify)
+    .bundle()
+    .pipe(source('pre-request.js'))
+    .pipe(dest(OUTPUT_PATH))
+    .pipe(buffer())
+    .pipe(terser())
+    .pipe(rename({ extname: '.min.js' }))
+    .pipe(dest(OUTPUT_PATH));
 });
 
 gulp.task('watch', series(

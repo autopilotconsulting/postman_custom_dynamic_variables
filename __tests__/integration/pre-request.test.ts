@@ -1,10 +1,12 @@
 import { Postman } from '../../src/types/postman';
+import * as moment from 'moment';
 
 describe('pre-request', () => {
   const exampleBody = {
     testRandomFloat: '{{randomFloat_1_2}}',
     testRandomInteger: '{{randomInteger_1_2}}',
     testSample: '{{sample_pip_lu_hatch}}',
+    testCurrentTimeUtc: '{{currentTimeUtc_YYYY/MM}}',
   };
 
   var fakeSetter = jest.fn();
@@ -63,6 +65,11 @@ describe('pre-request', () => {
     expectCallToMatch<string>(3, 'sample_pip_lu_hatch', (value) => {
       // TODO: make or find a toBeIn() matcher
       expect(['pip', 'lu', 'hatch']).toContain(value);
+    });
+
+    expectCallToMatch<string>(4, 'currentTimeUtc_YYYY/MM', (value) => {
+      const expected = moment.utc().format('YYYY/MM');
+      expect(value).toEqual(expected);
     });
   });
 });

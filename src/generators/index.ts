@@ -1,5 +1,6 @@
 import { Postman } from '../types/postman';
 
+import { currentTimeUtc } from './currentTimeUtc';
 import { randomFloat } from './randomFloat';
 import { randomInteger } from './randomInteger';
 import { sample } from './sample';
@@ -11,7 +12,7 @@ type FunctionMap = {
 }
 
 const generators: FunctionMap = {
-  randomFloat, randomInteger, sample
+  currentTimeUtc, randomFloat, randomInteger, sample
 };
 Object.freeze(generators);
 
