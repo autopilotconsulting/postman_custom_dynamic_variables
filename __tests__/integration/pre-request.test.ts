@@ -13,6 +13,7 @@ describe('pre-request', () => {
 
   var pm: Postman = {
     request: {
+      url: { toString: () => 'http://localhost/record/{{sample_1_2#id}}' },
       body: {
         raw: JSON.stringify(exampleBody),
       },
@@ -70,6 +71,10 @@ describe('pre-request', () => {
     expectCallToMatch<string>(4, 'currentTimeUtc_YYYY/MM', (value) => {
       const expected = moment.utc().format('YYYY/MM');
       expect(value).toEqual(expected);
+    });
+
+    expectCallToMatch<string>(5, 'sample_1_2#id', (value) => {
+      expect(['1', '2']).toContain(value);
     });
   });
 });

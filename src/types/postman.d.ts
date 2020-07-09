@@ -14,10 +14,15 @@ export interface Postman {
 
 export interface Request {
   body?: RequestBody;
+  url: Url;
 }
 
 export interface RequestBody {
   raw: string;
+}
+
+export interface Url {
+  toString: () => string;
 }
 
 export interface Environment {
