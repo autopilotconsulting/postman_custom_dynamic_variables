@@ -7,7 +7,7 @@ describe(randomFloat, () => {
     const results: { [key: number]: number } = {};
 
     for (let i = 0; i < SAMPLE_SIZE; ++i) {
-      const value = randomFloat("11", "18");
+      const value = randomFloat("-3", "3");
       const group = Math.floor(value);
 
       if (typeof results[group] === 'undefined') {
@@ -17,8 +17,8 @@ describe(randomFloat, () => {
       results[group]++;
     }
 
-    const expectedKeys = ['11', '12', '13', '14', '15', '16', '17'];
-    expect(Object.keys(results)).toEqual(expectedKeys);
+    const expectedKeys = ['-3', '-2', '-1', '0', '1', '2'];
+    expect(Object.keys(results).sort()).toEqual(expectedKeys.sort());
 
     for (let key in results) {
       const count = results[key] / SAMPLE_SIZE;
