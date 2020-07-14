@@ -2,11 +2,14 @@ import { Postman } from '../../src/types/postman';
 import * as moment from 'moment';
 
 describe('pre-request', () => {
+  const testDate = new Date('2012-02-17T11:18:14Z');
+
   const exampleBody = {
     testRandomFloat: '{{randomFloat_1_2}}',
     testRandomInteger: '{{randomInteger_1_2}}',
     testSample: '{{sample_pip_lu_hatch}}',
     testCurrentTimeUtc: '{{currentTimeUtc_YYYY/MM}}',
+    testCurrentTimeInTicks: '{{currentTimeInTicks}}',
   };
 
   var fakeSetter = jest.fn();
@@ -25,6 +28,7 @@ describe('pre-request', () => {
 
   beforeEach(() => {
     Object.assign(global, { pm });
+    jest.spyOn(global, 'Date').mockImplementation(() => testDate as any);
   });
 
   afterEach(() => {
@@ -52,29 +56,34 @@ describe('pre-request', () => {
   it('should replace the known set of tokens', () => {
     require('../../src/pre-request');
 
-    expectCallToMatch<number>(1, 'randomFloat_1_2', (value) => {
+    // from url
+    expectCallToMatch<string>(1, 'sample_1_2#id', (value) => {
+      expect(['1', '2']).toContain(value);
+    });
+
+    // from request body
+    expectCallToMatch<number>(2, 'randomFloat_1_2', (value) => {
       expect(value).toBeGreaterThanOrEqual(1);
       expect(value).toBeLessThan(2);
     });
 
-    expectCallToMatch<number>(2, 'randomInteger_1_2', (value) => {
+    expectCallToMatch<number>(3, 'randomInteger_1_2', (value) => {
       expect(value).toBeGreaterThanOrEqual(1);
       expect(value).toBeLessThanOrEqual(2);
       expect(value).toEqual(Math.round(value));
     });
 
-    expectCallToMatch<string>(3, 'sample_pip_lu_hatch', (value) => {
+    expectCallToMatch<string>(4, 'sample_pip_lu_hatch', (value) => {
       // TODO: make or find a toBeIn() matcher
       expect(['pip', 'lu', 'hatch']).toContain(value);
     });
 
-    expectCallToMatch<string>(4, 'currentTimeUtc_YYYY/MM', (value) => {
-      const expected = moment.utc().format('YYYY/MM');
-      expect(value).toEqual(expected);
+    expectCallToMatch<string>(5, 'currentTimeUtc_YYYY/MM', (value) => {
+      expect(value).toEqual('2012/02');
     });
 
-    expectCallToMatch<string>(5, 'sample_1_2#id', (value) => {
-      expect(['1', '2']).toContain(value);
+    expectCallToMatch<number>(6, 'currentTimeInTicks', (value) => {
+      expect(value).toBe(634650742940000000);
     });
   });
 });

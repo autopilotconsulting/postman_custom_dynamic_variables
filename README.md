@@ -29,6 +29,7 @@ Here are examples of the existing methods you can call:
     "randomIntegerBetween0And5": {{randomInteger_0_5}},
     "randomFloatBetween0And100": {{randomFloat_0_100}},
     "currentYear": {{currentTimeUtc_YYYY}},
+    "currentTimeInTicks": {{currentTimeInTicks}}
 }
 ```
 

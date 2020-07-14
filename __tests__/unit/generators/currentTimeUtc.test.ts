@@ -1,4 +1,3 @@
-import * as moment from 'moment-timezone';
 import { currentTimeUtc } from '../../../src/generators/currentTimeUtc';
 
 jest.mock('moment', () => ({

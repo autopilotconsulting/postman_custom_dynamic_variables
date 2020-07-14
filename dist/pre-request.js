@@ -21,7 +21,20 @@ function buildDynamicVariables(body, setter) {
 }
 exports.buildDynamicVariables = buildDynamicVariables;
 
-},{"./generators":3}],2:[function(require,module,exports){
+},{"./generators":4}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.currentTimeInTicks = void 0;
+const ticksPerMs = 10000;
+const msToEpoch = 62135596800000;
+function currentTimeInTicks() {
+    const currentTime = new Date().getTime();
+    const ticks = (currentTime + msToEpoch) * ticksPerMs;
+    return ticks;
+}
+exports.currentTimeInTicks = currentTimeInTicks;
+
+},{}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentTimeUtc = void 0;
@@ -32,21 +45,22 @@ function currentTimeUtc(format) {
 }
 exports.currentTimeUtc = currentTimeUtc;
 
-},{"moment":"moment"}],3:[function(require,module,exports){
+},{"moment":"moment"}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generators = void 0;
+const currentTimeInTicks_1 = require("./currentTimeInTicks");
 const currentTimeUtc_1 = require("./currentTimeUtc");
 const randomFloat_1 = require("./randomFloat");
 const randomInteger_1 = require("./randomInteger");
 const sample_1 = require("./sample");
 const generators = {
-    currentTimeUtc: currentTimeUtc_1.currentTimeUtc, randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
+    currentTimeInTicks: currentTimeInTicks_1.currentTimeInTicks, currentTimeUtc: currentTimeUtc_1.currentTimeUtc, randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
 };
 exports.generators = generators;
 Object.freeze(generators);
 
-},{"./currentTimeUtc":2,"./randomFloat":4,"./randomInteger":5,"./sample":6}],4:[function(require,module,exports){
+},{"./currentTimeInTicks":2,"./currentTimeUtc":3,"./randomFloat":5,"./randomInteger":6,"./sample":7}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomFloat = void 0;
@@ -57,7 +71,7 @@ function randomFloat(minString, maxString) {
 }
 exports.randomFloat = randomFloat;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomInteger = void 0;
@@ -69,7 +83,7 @@ function randomInteger(minString, maxString) {
 }
 exports.randomInteger = randomInteger;
 
-},{"./randomFloat":4}],6:[function(require,module,exports){
+},{"./randomFloat":5}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sample = void 0;
@@ -78,16 +92,16 @@ function sample(...options) {
 }
 exports.sample = sample;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const buildDynamicVariables_1 = require("./buildDynamicVariables");
 const setter = (name, value) => pm.environment.set(name, value);
+const url = pm.request.url.toString();
+buildDynamicVariables_1.buildDynamicVariables(url, setter);
 const body = pm.request.body;
 if (body) {
     buildDynamicVariables_1.buildDynamicVariables(body.raw, setter);
 }
-const url = pm.request.url.toString();
-buildDynamicVariables_1.buildDynamicVariables(url, setter);
 
-},{"./buildDynamicVariables":1}]},{},[7]);
+},{"./buildDynamicVariables":1}]},{},[8]);
