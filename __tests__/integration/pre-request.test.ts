@@ -1,5 +1,4 @@
-import { Postman } from '../../src/types/postman';
-import * as moment from 'moment';
+import { Postman, Header } from '../../src/types/postman';
 
 describe('pre-request', () => {
   const testDate = new Date('2012-02-17T11:18:14Z');
@@ -12,13 +11,22 @@ describe('pre-request', () => {
     testCurrentTimeInTicks: '{{currentTimeInTicks}}',
   };
 
-  var fakeSetter = jest.fn();
+  const fakeSetter = jest.fn();
 
-  var pm: Postman = {
+  const headers: Header[] = [
+    { key: 'Authorization', value: 'HMAC-SHA256 api-key-id:{{hmacBody_SHA256_secret}}' }
+  ];
+
+  const pm: Postman = {
     request: {
       url: { toString: () => 'http://localhost/record/{{sample_1_2#id}}' },
       body: {
         raw: JSON.stringify(exampleBody),
+      },
+      headers: {
+        each: (iterator) => {
+          headers.forEach(iterator);
+        }
       },
     },
     environment: {
@@ -84,6 +92,10 @@ describe('pre-request', () => {
 
     expectCallToMatch<number>(6, 'currentTimeInTicks', (value) => {
       expect(value).toBe(634650742940000000);
+    });
+
+    expectCallToMatch<string>(7, 'hmacBody_SHA256_secret', (value) => {
+      expect(value).toBe('70079fa16fa836b8fec40b70b872f116f4edf41c594d79cf5932fe8532589de1');
     });
   });
 });

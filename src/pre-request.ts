@@ -10,3 +10,7 @@ const body = pm.request.body;
 if (body) {
   buildDynamicVariables(body.raw, setter);
 }
+
+pm.request.headers.each(header => {
+  buildDynamicVariables(header.value, setter);
+});

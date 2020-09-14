@@ -21,7 +21,7 @@ function buildDynamicVariables(body, setter) {
 }
 exports.buildDynamicVariables = buildDynamicVariables;
 
-},{"./generators":4}],2:[function(require,module,exports){
+},{"./generators":5}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentTimeInTicks = void 0;
@@ -48,19 +48,31 @@ exports.currentTimeUtc = currentTimeUtc;
 },{"moment":"moment"}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.hmacBody = void 0;
+function hmacBody(algorithm, secret) {
+    const hmacFunction = CryptoJS[`Hmac${algorithm}`];
+    const body = (pm.request.body || {}).raw || '';
+    return hmacFunction(body, secret).toString();
+}
+exports.hmacBody = hmacBody;
+
+},{}],5:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.generators = void 0;
 const currentTimeInTicks_1 = require("./currentTimeInTicks");
 const currentTimeUtc_1 = require("./currentTimeUtc");
+const hmacBody_1 = require("./hmacBody");
 const randomFloat_1 = require("./randomFloat");
 const randomInteger_1 = require("./randomInteger");
 const sample_1 = require("./sample");
 const generators = {
-    currentTimeInTicks: currentTimeInTicks_1.currentTimeInTicks, currentTimeUtc: currentTimeUtc_1.currentTimeUtc, randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
+    currentTimeInTicks: currentTimeInTicks_1.currentTimeInTicks, currentTimeUtc: currentTimeUtc_1.currentTimeUtc, hmacBody: hmacBody_1.hmacBody, randomFloat: randomFloat_1.randomFloat, randomInteger: randomInteger_1.randomInteger, sample: sample_1.sample
 };
 exports.generators = generators;
 Object.freeze(generators);
 
-},{"./currentTimeInTicks":2,"./currentTimeUtc":3,"./randomFloat":5,"./randomInteger":6,"./sample":7}],5:[function(require,module,exports){
+},{"./currentTimeInTicks":2,"./currentTimeUtc":3,"./hmacBody":4,"./randomFloat":6,"./randomInteger":7,"./sample":8}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomFloat = void 0;
@@ -71,7 +83,7 @@ function randomFloat(minString, maxString) {
 }
 exports.randomFloat = randomFloat;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.randomInteger = void 0;
@@ -83,7 +95,7 @@ function randomInteger(minString, maxString) {
 }
 exports.randomInteger = randomInteger;
 
-},{"./randomFloat":5}],7:[function(require,module,exports){
+},{"./randomFloat":6}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sample = void 0;
@@ -92,7 +104,7 @@ function sample(...options) {
 }
 exports.sample = sample;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const buildDynamicVariables_1 = require("./buildDynamicVariables");
@@ -103,5 +115,8 @@ const body = pm.request.body;
 if (body) {
     buildDynamicVariables_1.buildDynamicVariables(body.raw, setter);
 }
+pm.request.headers.each(header => {
+    buildDynamicVariables_1.buildDynamicVariables(header.value, setter);
+});
 
-},{"./buildDynamicVariables":1}]},{},[8]);
+},{"./buildDynamicVariables":1}]},{},[9]);

@@ -1,2 +1,4 @@
 import * as _ from 'lodash';
-Object.assign(global, { _ });
+import * as CryptoJS from 'crypto-js';
+
+Object.assign(global, { _, CryptoJS });

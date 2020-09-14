@@ -13,6 +13,7 @@ describe('pre-request', () => {
       request: {
         url: '',
         body: undefined,
+        headers: { each: jest.fn() },
       },
       environment: {
         set: fakeSetter,

@@ -15,6 +15,7 @@ export interface Postman {
 export interface Request {
   body?: RequestBody;
   url: Url;
+  headers: HeaderList;
 }
 
 export interface RequestBody {
@@ -23,6 +24,15 @@ export interface RequestBody {
 
 export interface Url {
   toString: () => string;
+}
+
+export interface Header {
+  key: string;
+  value: string;
+}
+
+export interface HeaderList {
+  each: (iterator: (header: Header) => void) => void;
 }
 
 export interface Environment {
