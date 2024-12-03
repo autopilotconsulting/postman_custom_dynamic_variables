@@ -40,7 +40,7 @@
     "gulp-terser": "^1.2.0",
     "jest": "^26.1.0",
     "lodash": "^4.17.19",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "ts-jest": "^26.1.1",
     "tsify": "^4.0.2",
     "typescript": "^3.9.6",
